@@ -1,0 +1,30 @@
+Adding Authentication =>
+1. Install next-auth js using npm
+2. Add [...nextauth].js in auth folder under api under pages
+3. Create Oauth client id in google search console
+4. add id,passwd to .env
+
+AXIOS =>
+Directly receive data in json format(no need to convert)
+Axios is a popular JavaScript library that is used to make HTTP requests from web browsers or Node.js. It provides a simple and elegant way to perform asynchronous HTTP requests and handle responses in JavaScript applications.
+Axios supports various features, including making GET, POST, PUT, DELETE, and other types of requests to RESTful APIs. It also supports request and response interception, automatic JSON data transformation, and handling of request and response headers.
+One of the key features of Axios is its support for promises, which allows developers to handle asynchronous operations in a more organized and readable manner. Promises help manage the flow of asynchronous operations and handle success and error scenarios with ease.
+
+axios.get('https://api.example.com/data')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+  Fetch's body = Axios' data
+Fetch's body has to be stringified, Axios' data contains the object
+Fetch has no url in request object, Axios has url in request object
+Fetch request function includes the url as parameter, Axios request function does not include the url as parameter.
+Fetch request is ok when response object contains the ok property, Axios request is ok when status is 200 and statusText is 'OK'
+To get the json object response: in fetch call the json() function on the response object, in Axios get data property of the response object.
+
+Mongoose => for interacting with MongoDB
+Mongoose is an object data modeling (ODM) library for MongoDB, which is a popular open-source NoSQL database. 
+It provides a straightforward way to interact with MongoDB by allowing you to define schemas with strongly-typed fields, create models based on those schemas, and perform CRUD (Create, Read, Update, Delete) operations on the database.
