@@ -28,3 +28,8 @@ To get the json object response: in fetch call the json() function on the respon
 Mongoose => for interacting with MongoDB
 Mongoose is an object data modeling (ODM) library for MongoDB, which is a popular open-source NoSQL database. 
 It provides a straightforward way to interact with MongoDB by allowing you to define schemas with strongly-typed fields, create models based on those schemas, and perform CRUD (Create, Read, Update, Delete) operations on the database.
+
+? is used incase the thing does not exist but called
+
+Multiparty => used in upload.js
+Parse http requests with content-type multipart/form-data, also known as file uploads.
