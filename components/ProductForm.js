@@ -17,10 +17,10 @@ export default function ProductForm({_id,title:existingTitle
 
     async function saveProduct(ev){
         ev.preventDefault();
-        const data  = {title,description,price};
+        const data  = {title,description,price,_id};
         if(_id){
           // UPDATE PRODUCT
-          await axios.put('api/products',{...data,_id});
+          await fetch('/api/products',{method: 'PATCH',body: JSON.stringify(data)});
         }else{
           // ADD PRODUCT
           await axios.post('/api/products',data);

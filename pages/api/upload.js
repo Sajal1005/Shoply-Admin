@@ -1,4 +1,3 @@
-import { config } from "process";
 import multiparty from 'multiparty';
 
 export default async function handle(req,res){
@@ -9,8 +8,15 @@ export default async function handle(req,res){
       resolve({fields,files});
     });
   });
+  for(const file of files.file){
+    const ext = file.originalFilename.split('.').pop();
+    console.log(ext);
+  }
   return res.json('ok');
+  
 }
+
+
 
 // Not parse our req, parse ourselves
 export const config = {

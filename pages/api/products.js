@@ -7,6 +7,7 @@ export default async function handle(req, res) {
     await mongooseConnect();
 
     if(method === 'GET'){
+      // console.log("get done")
       if(req.query?.id){
         res.json(await Product.findOne({_id:req.query.id}))
       }else{
@@ -22,10 +23,10 @@ export default async function handle(req, res) {
       res.json(productDoc);
     }
 
-    if(method === 'PUT'){
-      const {title,description,price,_id} = req.body;
-      await Product.updateOne({_id}, {title,description,price});
-      res.json(true);
+    if(method === 'PATCH'){
+    const {title,description,price,_id} = await JSON.parse(req.body);
+    await Product.updateOne({_id}, {title,description,price});
+    res.json(true);
     }
 
     if(method === 'DELETE'){
