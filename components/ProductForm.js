@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { CloudinaryContext, Image } from 'cloudinary-react';
+// import dotenv from 'dotenv';
+
+// require("dotenv").config();
 
 export default function ProductForm({_id,title:existingTitle
     ,description:existingDescription
@@ -38,11 +42,17 @@ export default function ProductForm({_id,title:existingTitle
         const data  = new FormData();
         for(const file of files){
           data.append('file',file);
+          data.append('upload_preset','oxb08z5s');
         }
-        const res = await fetch('/api/upload',{
-          method: 'POST',
-          body: data,
-        })
+        try {
+          const response = await axios.post(
+            'https://api.cloudinary.com/v1_1/dnh8ucfqd/image/upload',
+            data
+          );
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
 
@@ -65,6 +75,14 @@ export default function ProductForm({_id,title:existingTitle
                 <div>No photos in this product</div>
               )}
             </div>
+
+            <CloudinaryContext
+        cloudName={process.env.CLOUDINARY_CLOUD_NAME}
+        apiKey={process.env.CLOUDINARY_API_KEY}
+        apiSecret={process.env.CLOUDINARY_API_SECRET}
+      >
+        {/* Display the images */}
+      </CloudinaryContext>
 
             <label>Description</label>
             <textarea placeholder='Description'
