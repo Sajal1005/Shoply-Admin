@@ -76,6 +76,18 @@ export default function ProductForm({_id,title:existingTitle
       setImages(images);
     }
 
+    // Adding properties of Parent Category to Child Category
+    const propertiesToFill =[];
+    if(categories.length>0 && category){
+      let catInfo = categories.find(({_id}) => _id === category);
+      propertiesToFill.push(...catInfo.properties);
+      while(catInfo?.parent?._id){
+        const parentCat = categories.find(({_id}) => _id === catInfo?.parent?._id);
+        propertiesToFill.push(...parentCat.properties);
+        catInfo = parentCat;
+      }
+    }
+
   return (
         <form onSubmit={saveProduct}>
           
@@ -92,6 +104,11 @@ export default function ProductForm({_id,title:existingTitle
                 <option value={c._id}>{c.name}</option>
               ))}
             </select>
+
+            {/* Adding properties of Parent Category to Child Category */}
+            {propertiesToFill.length > 0 && propertiesToFill.map(p => (
+              <div>{p.name}</div>
+            ))}
 
             <label>Photos</label>
             <div className="mb-2 flex flex-wrap gap-1">
