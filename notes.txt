@@ -31,5 +31,6 @@ It provides a straightforward way to interact with MongoDB by allowing you to de
 
 ? is used incase the thing does not exist but called
 
-Multiparty => used in upload.js
-Parse http requests with content-type multipart/form-data, also known as file uploads.
+Sweetalert2 => used for prompting delete in categories
+Sweet Alert is used to make an alert box more attractive and easier to design. The sweet JS Provides easy methods to design and add a lot of functionality to the alert box of the website by just calling the function of sweet alert (in short SWAL()).
+It is a beautiful replacement for JavaScript confirming the message! It will replace the ugly confirmation message with a beautiful customizable and fully functional modal.

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Spinner from "./Spinner";
@@ -8,12 +8,22 @@ export default function ProductForm({_id,title:existingTitle
     ,description:existingDescription
     ,price:existingPrice,
     images:existingImages,
+    category: existingCategory,
 }){
     const [title,setTitle] = useState(existingTitle || '');
     const [description,setDescription] = useState(existingDescription || '');
     const [price,setPrice] = useState(existingPrice || '');
     const [images,setImages] = useState(existingImages || []);
     const [isUploading,setIsUploading] = useState(false);
+    const [categories,setCategories] = useState([]);
+    const [category,setCategory] = useState(existingCategory || '');
+
+    // Fetch categories
+    useEffect(() => {
+      axios.get('/api/categories').then(result => {
+        setCategories(result.data);
+      })
+    },[])
 
     // To navigate to products page after adding product
     const [goToProducts,setGoToProducts] = useState(false);
@@ -21,7 +31,7 @@ export default function ProductForm({_id,title:existingTitle
 
     async function saveProduct(ev){
         ev.preventDefault();
-        const data  = {title,description,price,_id,images};
+        const data  = {title,description,price,_id,images,category};
         if(_id){
           // UPDATE PRODUCT
           await fetch('/api/products',{method: 'PATCH',body: JSON.stringify(data)});
@@ -73,12 +83,22 @@ export default function ProductForm({_id,title:existingTitle
             <input type="text" placeholder='Product Name'
             value={title} onChange={ev => setTitle(ev.target.value)}/>
 
+            <label>Category</label>
+            <select value={category} 
+            onChange={ev => setCategory(ev.target.value)}
+            >
+              <option value="">Uncategorized</option>
+              {categories.length>0 && categories.map(c => (
+                <option value={c._id}>{c.name}</option>
+              ))}
+            </select>
+
             <label>Photos</label>
             <div className="mb-2 flex flex-wrap gap-1">
               <ReactSortable list={images} setList={updateImagesOrder} className="flex flex-wrap gap-1">
               {!!images?.length && images.map(link =>(
                 <div key={link}>
-                  <img src={link} alt="" className="rounded-lg"/>
+                  <img src={link} alt="" className="rounded-lg max-xs max-w-xs"/>
                 </div>
               ))}
               </ReactSortable>
