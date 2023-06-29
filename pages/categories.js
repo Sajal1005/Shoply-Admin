@@ -4,9 +4,10 @@ import axios from "axios";
 
 export default function Categories(){
     
-    const [name,setName] = useState("");
+    const [name,setName] = useState('');
     const [parentCategory,setParentCategory] = useState('');
     const [categories,setCategories] = useState([]);
+    const [editedCategory,setEditedCategory] = useState(null);
     
     function fetchCategories(){
         axios.get('/api/categories').then(result => {
@@ -16,20 +17,40 @@ export default function Categories(){
 
     async function saveCategory(ev){
         ev.preventDefault();
-        await axios.post('/api/categories',{name,parentCategory});
+        const data = {name,parentCategory};
+        // Edit Category
+        if(editedCategory){
+            data._id = editedCategory._id;
+            await axios.put('/api/categories',data);
+            // To create new categories again
+            setEditedCategory(null);
+        }else{
+            // New Category
+            console.log("Hello")
+            await axios.post('/api/categories',data);
+        }
         setName('');
+        setParentCategory('');
         fetchCategories();
     }
 
     useEffect(() => {
         fetchCategories();
     },[])
+
+    function editCategory(category){
+        setEditedCategory(category);
+        setName(category.name);
+        setParentCategory(category.parent?._id);
+    }
     
     return (
         <Layout>
 
             <h1>Categories</h1>
-            <label>New Category Name</label>
+            <label>
+                {editedCategory ? `Edit category ${editedCategory.name}` : 'Create new category'}
+            </label>
             <form onSubmit={saveCategory} className="flex gap-1">
                 <input className="mb-0" type="text" placeholder="Category name" value={name} onChange={ev => setName(ev.target.value)}/>
                 <select className="mb-0" onChange={ev => setParentCategory(ev.target.value)} value={parentCategory}>
@@ -45,7 +66,8 @@ export default function Categories(){
                 <thead>
                     <tr>
                         <td>Category name</td> 
-                        <td>Parent Category</td> 
+                        <td>Parent Category</td>
+                        <td></td> 
                     </tr>
                 </thead>
 
@@ -54,6 +76,9 @@ export default function Categories(){
                         <tr>
                           <td>{category.name}</td>  
                           <td>{category?.parent?.name}</td>
+                          <td className="flex-row items-right">
+                            <button onClick={() => editCategory(category)} className="btn-primary mr-1">Edit</button>
+                            <button className="btn-primary mr-1">Delete</button></td>
                         </tr>
                     ))}
                 </tbody>
