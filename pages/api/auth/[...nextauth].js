@@ -7,6 +7,7 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from 'next-auth/providers/google'
 import clientPromise from '../../../lib/mongodb'
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import { getServerSession } from 'next-auth';
 
 const adminEmails = ["nandasajal.208@gmail.com"]
 const adminNames = ["Sajal Nanda"]
@@ -39,7 +40,6 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session:({session,token,user}) => {
-      console.log(user);
       if(adminEmails.includes(session?.user?.email) || adminNames.includes(session?.user?.name)){
         return session;
       }else{
@@ -53,9 +53,10 @@ export default NextAuth(authOptions);
 
 export async function isAdminRequest(req,res) {
   const session = await getServerSession(req,res,authOptions);
-  if (!adminEmails.includes(session?.user?.email) || !adminNames.includes(session?.user?.name)) {
-    res.status(401);
+  if (session?.user?.email!=null && !adminEmails.includes(session?.user?.email) || !adminNames.includes(session?.user?.name)) {
+    // console.log(session?.user)
+    // res.status(401);
     res.end();
-    throw 'not an admin';
+    // throw 'not an admin';
   }
 }
