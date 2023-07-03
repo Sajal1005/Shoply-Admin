@@ -20,7 +20,8 @@ function Categories({swal}){
         ev.preventDefault();
         const data = {name,
             parentCategory,
-            properties: properties.map(p => ({
+            properties: properties.map(p => (
+                {
                 name:p.name,
                 values:p.values.split(','),
             }))
@@ -50,9 +51,10 @@ function Categories({swal}){
         setName(category.name);
         setParentCategory(category.parent?._id);
         setProperties(
-            category.properties.map(({name,values}) => ({
-            name,
-            values:values.join(',')
+            category.properties.Array.forEach(({name,values}) => (
+                {
+                name,
+                values:values.join(',')
           }))
           );
     }
@@ -120,7 +122,7 @@ function Categories({swal}){
                     <select onChange={ev => setParentCategory(ev.target.value)} value={parentCategory}>
                         <option value="0">No parent category</option>
                         {categories.length>0 && categories.map(category => (
-                            <option value={category._id}>{category.name}</option>
+                            <option key={category._id} value={category._id}>{category.name}</option>
                         ))}
                     </select>
                 </div>
