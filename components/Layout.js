@@ -19,11 +19,13 @@ export default function Layout({children}) {
 
 
       <div className="bg-black w-screen h-screen flex items-center">
-        <div className="text-center w-full">
-          <button className="btn-primary" onClick={() => signIn('google')}>Login with Google</button>
-          <button className="btn-primary" onClick={() => signIn('github')}>Login with GitHub</button>
+        <div className="text-center w-full ">
+        <h1 class="mt-0 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">LOGIN TO SHOPLY-ADMIN PANEL</h1><br /><br />
+          <button className="btn-primary text-2xl" onClick={() => signIn('google')}>Login with Google</button><br /><br /><br />
+          <button className="btn-primary text-2xl mb-20" onClick={() => signIn('github')}>Login with GitHub</button>
         </div>
       </div>
+
       
     </>
   )
