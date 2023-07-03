@@ -111,7 +111,7 @@ export default function ProductForm({_id,title:existingTitle
             >
               <option value="">Uncategorized</option>
               {categories.length>0 && categories.map(c => (
-                <option value={c._id}>{c.name}</option>
+                <option key={c._id} value={c._id}>{c.name}</option>
               ))}
             </select>
 
